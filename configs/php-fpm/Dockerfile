@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.3-fpm
 
 WORKDIR /var/www/html
 
@@ -15,6 +15,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 COPY src/ .
 COPY public/ .
 COPY vendor/ .
+
+# TODO : Ajouter composer à l'image et télécharger les dépendances au build
 
 
 # Installation des dépendances de l'application
