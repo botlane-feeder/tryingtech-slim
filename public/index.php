@@ -9,48 +9,11 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
-$app->addErrorMiddleware(false, true, true);
+// $app->addErrorMiddleware(false, true, true);
 
-/** Tests sur les middlewares
+/** Emplacement pour les middlewares
  * la définition des middlewares s'ajoute dans un pile : la première function Middleware sera executées en dernier
  */
-
-$beforeMV = function (Request $request, RequestHandler $handler) use ($app) {
-  error_log("1");
-  $response = $handler->handle($request);
-  $existingContent = (string) $response->getBody();
-  
-  $response = $app->getResponseFactory()->createResponse();
-  $response->getBody()->write('BEFORE ' . $existingContent);
-  error_log($existingContent);
-  
-  return $response;
-};
-
-$afterMV = function (Request $request, RequestHandler $handler) {
-  error_log("3");
-  $response = $handler->handle($request);
-  $response->getBody()->write(' AFTER');
-  return $response;
-};
-
-// $app->add(function (Request $request, RequestHandler $handler) use ($app) {
-//   error_log("2");
-//   $response = $handler->handle($request);
-//   $existingContent = (string) $response->getBody();
-
-//   $response = $app->getResponseFactory()->createResponse();
-//   $response->getBody()->write('\-' . $existingContent);
-
-//   return $response;
-// });
-
-// $app->add(function (Request $request, RequestHandler $handler) use ($app) {
-//   error_log("4");
-//   $response = $handler->handle($request);
-//   $response->getBody()->write('-/');
-//   return $response;
-// });
 
 /** Routes de l'application
  * `/` : renvoie Hello World
@@ -60,38 +23,33 @@ $afterMV = function (Request $request, RequestHandler $handler) {
 $app->get('/', function (Request $request, Response $response, $args) {
     $response->getBody()->write("Hello world!");
     return $response;
-})->add($beforeMV)->add($afterMV);
+});
 
 $app->get('/about', function (Request $request, Response $response, $args) {
-    $response->getBody()->write(json_encode(["name"=>"test-slim", "version"=>"0.0.0"]));
+    $response->getBody()
+    ->write(
+      json_encode(["name"=>"test-slim", "version"=>"0.0.0"])
+    );
+
     return $response->withHeader('Content-Type', 'application/json');
 });
 
-$app->group('/utils', function (RouteCollectorProxy $group) {
-  $group->get('/', function (Request $request, Response $response) {
-    $response->getBody()->write( "Choose your route utils/date or utils/time");
-    return $response;
-});
-  $group->get('/date', function (Request $request, Response $response) {
-      $response->getBody()->write(date('Y-m-d H:i:s'));
-      return $response;
-  });
+$app->get('/lists', function (Request $request, Response $response, $args) {
+  $manager = new MongoDB\Driver\Manager('mongodb://mongodb:27017');
+  $listsArray = $manager->executeQuery("todolist.lists", new \MongoDB\Driver\Query([]))->toArray();
   
-  $group->get('/time', function (Request $request, Response $response) {
-      $response->getBody()->write((string)time());
-      return $response;
-  });
-})->add(function (Request $request, RequestHandler $handler) use ($app) {
-  $response = $handler->handle($request);
-  $dateOrTime = (string) $response->getBody();
+  $client = new MongoDB\Client('mongodb://mongodb:27017');
+  $listsCollection = new MongoDB\Collection($client->getManager(), "todolist", "lists");
+  $allDocuments = $listsCollection->find([])->toArray();
 
-  $response = $app->getResponseFactory()->createResponse();
-  $response->getBody()->write('It is now ' . $dateOrTime . '. Enjoy!');
+  $response->getBody()
+  ->write(json_encode(array_merge($listsArray, $allDocuments)));
 
-  return $response;
+  return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->run();
+
 /* Exploration de la documentation :
 - Request
 - Response

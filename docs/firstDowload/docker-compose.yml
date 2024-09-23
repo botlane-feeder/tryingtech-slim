@@ -20,11 +20,6 @@ services:
     depends_on:
       - php-fpm
 
-  mongodb:
-    image: mongodb/mongodb-community-server
-    networks:
-      - app-network
-
 networks:
   app-network:
     driver: bridge

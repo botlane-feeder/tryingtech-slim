@@ -5,6 +5,7 @@
     "require": {
         "slim/slim": "^4.13",
         "slim/psr7": "^1.4",
+        "mongodb/mongodb":"^1.19",
         "firebase/php-jwt": "^6.1"
     },
     "autoload": {
