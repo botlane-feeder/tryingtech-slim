@@ -21,8 +21,6 @@ $app = AppFactory::create();
  */
 
 /** Routes de l'application
- * `/` : renvoie Hello World
- * `/about` : renvoie des données de l'application comme son nom et sa version
  */
 
 $app->get('/', function (Request $request, Response $response, array $args) {
@@ -42,7 +40,6 @@ $app->get('/lists', function (Request $request, Response $response, array $args)
 });
 
 $app->get('/task/{idTask}', function(Request $request, Response $response, array $args) {
-  //fetch("/task/"+idTask, { method:"GET", headers:{"Content-Type": "application/json"}} ); 
   $success=0;
   $parameters = (new ParametersHandler())->getParameters($request->getBody(), $args);
   $oneTask=[];
@@ -55,7 +52,6 @@ $app->get('/task/{idTask}', function(Request $request, Response $response, array
 });
 
 $app->post('/task', function(Request $request, Response $response, array $args) {
-  //fetch("/task", { method:"POST", headers:{"Content-Type": "application/json"}, body:JSON.stringify({"title":"Faire le tuto Svelte", "description":"Suivre tout le tutoriel pour se former à Slim"})} ); 
   $success=0;
   $status=201;
   //Récupération des données en body
@@ -76,7 +72,6 @@ $app->post('/task', function(Request $request, Response $response, array $args) 
 });
 
 $app->put('/task/{idTask}', function(Request $request, Response $response, array $args) {
-  //fetch("/task/"+idTask, { method:"PUT", headers:{"Content-Type": "application/json"}, body:JSON.stringify({"description":"Nouvelle description"})} ); 
   $success=0;
   //Récupération des données en body
   $parameters = (new ParametersHandler())->getParameters($request->getBody(), $args);
@@ -94,7 +89,6 @@ $app->put('/task/{idTask}', function(Request $request, Response $response, array
 });
 
 $app->delete('/task/{idTask}', function(Request $request, Response $response, array $args) {
-  //fetch("/task/"+idTask, { method:"DELETE", headers:{"Content-Type": "application/json"} }); 
   $success=0;
   $parameters = (new ParametersHandler())->getParameters($request->getBody(), $args);
   if( isset($parameters["idTask"]) ){
@@ -106,12 +100,3 @@ $app->delete('/task/{idTask}', function(Request $request, Response $response, ar
 });
 
 $app->run();
-
-/* Exploration de la documentation :
-- Request
-- Response
-- RequestHandler : pour comprendre et appréhender les middlewares
-
-- Groupe de routes (Possibilité d'ajouter un middleware à un groupe de routes)
-  - 
-*/

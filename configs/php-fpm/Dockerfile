@@ -24,8 +24,6 @@ COPY public/ .
 COPY vendor/ .
 
 # TODO : Ajouter composer à l'image et télécharger les dépendances au build
-# TODO : Ajouter "extension=mongodb.so" au fichier "php.ini"
-
 
 # Installation des dépendances de l'application
 # RUN composer install --no-dev --optimize-autoloader

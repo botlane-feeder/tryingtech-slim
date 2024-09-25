@@ -325,7 +325,14 @@ $app = AppFactory::createFromContainer($container);
 
 ### Request
 
+Chaque route instancie une `Request` et on utilise ses méthodes pour nos besoins.
 
+Par exemple, récupérer le body :  
+```php
+$postParameters = json_decode($request->getBody(), true);
+```
+
+Ou encore, récupérer les arguments variables
 
 ### Responses
 
@@ -359,12 +366,12 @@ Et configurer mongodb dans le fichier de configuration de `php.ini`
 
 Ces deux étapes sont faites automatiquement dans le Dockerfile PHP-FPM
 
-Après cette installation, nous avons à disposition le driver PHP et ces utilitaires :
+Après cette installation, nous avons à disposition le [driver PHP](https://www.php.net/manual/en/book.mongodb.php) et ces utilitaires :
 - `MongoDB\Driver\Manager` : le manager qui ouvre une connexion avec la SGBD mongoDB
 - `MongoDB\Driver\Query` : un utilitaire Query pour faire des requêtes afin de récupérer des données
 - `MongoDB\Driver\BulkWrite` : un utilitaire Bulk pour faire des requêtes insert, update, ou delete
 
 MongoDB nous propose également sa propre librairie que l'on peut installer avec composer : `composer require mongodb/mongodb`
-- `MongoDB\Client` : un utilitaire pour se connecter à la SGBD mongoDB
-- `MongoDB\Database` : un utilitaire pour interroger une base de données
-- `MongoDB\Collection` : un utilitaire pour faire des requêtes dans une collection
+- `MongoDB\Client` : un [utilitaire](https://www.mongodb.com/docs/php-library/current/reference/class/MongoDBClient/) pour se connecter à la SGBD mongoDB
+- `MongoDB\Database` : un [utilitaire](https://www.mongodb.com/docs/php-library/current/reference/class/MongoDBDatabase/) pour interroger une base de données
+- `MongoDB\Collection` : un [utilitaire](https://www.mongodb.com/docs/php-library/current/reference/class/MongoDBCollection/) pour faire des requêtes dans une collection
