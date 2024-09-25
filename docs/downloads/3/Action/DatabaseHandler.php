@@ -14,7 +14,6 @@ class DatabaseHandler{
       "hostname"=>"mongodb",
       "port"=>27017
     ];
-    // $this->listsCollection = new MongoDB\Collection($manager, $this->getConfig()["dbName"], $collectionName);
   }
   private function getConfig():array{ return $this->config; }
 
@@ -24,12 +23,10 @@ class DatabaseHandler{
 
   public function readByID(string $id, string $collectionName):array{
     return $this->read( ["_id" => new \MongoDB\BSON\ObjectId($id)], $collectionName );
-    // $data = $listsCollection->findOne(["_id"=>new MongoDB\BSON\ObjectId($id)]);
   }
   public function read(array $filter, string $collectionName):array{
     $query = new \MongoDB\Driver\Query($filter);
     $cursor = $this->getManager()->executeQuery($this->getConfig()["dbName"].".".$collectionName, $query);
-    // $data = $listsCollection->find($filter);
     $data = json_decode(json_encode($cursor->toArray()), true);
     // Lint l'id de chaque tâche
     foreach ($data as $key => $oneTask) {
@@ -45,8 +42,6 @@ class DatabaseHandler{
     $bulk = new \MongoDB\Driver\BulkWrite();
     $id = $bulk->insert($data);
     $this->getManager()->executeBulkWrite($this->getConfig()["dbName"].".".$collectionName, $bulk);
-    // $listsCollection = new MongoDB\Collection($this->getManager(), $this->getConfig()["dbName"], $collectionName);
-    // $listsCollection->insertOne($task);
     return $id;
   }
 
@@ -56,7 +51,6 @@ class DatabaseHandler{
     $bulk = new \MongoDB\Driver\BulkWrite();
     $id = $bulk->update($filter, ['$set'=>$data]);
     $this->getManager()->executeBulkWrite($this->getConfig()["dbName"].".".$collectionName, $bulk);
-    // $oneTask = $listsCollection->findOneAndDelete(["_id"=>new MongoDB\BSON\ObjectId($args["idTask"])], ['$set'=>$updatesTask]);
     return $this;
   }
 
@@ -66,7 +60,6 @@ class DatabaseHandler{
     $bulk = new \MongoDB\Driver\BulkWrite();
     $id = $bulk->delete($filter);
     $this->getManager()->executeBulkWrite($this->getConfig()["dbName"].".".$collectionName, $bulk);
-    // $oneTask = $listsCollection->findOneAndDelete(["_id"=>new MongoDB\BSON\ObjectId($args["idTask"])], ['$set'=>$updatesTask]);
     return $this;
   }
 }
