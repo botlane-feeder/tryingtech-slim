@@ -8,6 +8,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
+## [0.2.0] - 2024-09-23
+
+### REFACTOR
+
+- Mise en place d'une classe App, qui contient la création de l'application web
+
+### ADD
+
+- Mise en place de tests unitaires avec PHPUnit
+- Mise en place d'un Makefile pour lancer plus facilement des commandes
+
+
 ## [0.1.0] - 2024-09-22
 
 ### REFACTOR
