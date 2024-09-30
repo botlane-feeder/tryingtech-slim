@@ -8,7 +8,7 @@ use Slim\Psr7\Factory\ServerRequestFactory;
 
 use App\App;
 
-class AppTests extends TestCase {
+class AppTest extends TestCase {
 
   private App $app;
 
