@@ -36,7 +36,7 @@ class App {
       
     $this->app->get('/about', function (Request $request, Response $response, array $args) {
       return (new ResponseHandler())->createResponse(
-        $response, ["name"=>"test-slim", "version"=>"0.0.0"], 200, "application/json; charset=UTF-8"
+        $response, ["name"=>"test-slim", "version"=>"0.2.0"], 200, "application/json; charset=UTF-8"
       );
     });
     
@@ -57,7 +57,7 @@ class App {
       if( isset($parameters["idTask"]) ){
         // Récupération des données
         // $oneTask = (new DatabaseHandler("todolist"))->readById($parameters["idTask"], "lists");
-        $oneTask = (new Collection("lists"))->readByID($parameters["idTask"]);
+        $oneTask = (new Collection("lists"))->readByID($parameters["idTask"])[0];
       }
       return (new ResponseHandler())->createResponse($response, $oneTask, 200, "application/json");
     });
@@ -88,16 +88,16 @@ class App {
       //Récupération des données en body
       $parameters = (new ParametersHandler())->getParameters($request->getBody(), $args);
       $dataHandler = new TaskDataHandler();
+      // error_log("parameters : ".json_encode($parameters)." type : ".gettype($parameters["done"]));
       if( $dataHandler->verifyData($parameters) &&  isset($parameters["idTask"])){
         $updatesTask = $dataHandler->getFormattedData($parameters);
         if( $updatesTask != []){
           // Modification des données
           $oneTask = (new DatabaseHandler("todolist"))->update($parameters["idTask"], $updatesTask, "lists");
-          error_log("here");
         }else{$success=1;}
       }else{$success=2;}
     
-      return (new ResponseHandler())->createResponse($response, ["sucess"=>$success], 200, "application/json");
+      return (new ResponseHandler())->createResponse($response, ["success"=>$success], 200, "application/json");
     });
     
     $this->app->delete('/task/{idTask}', function(Request $request, Response $response, array $args) {
@@ -109,9 +109,16 @@ class App {
         $oneTask = (new DatabaseHandler("todolist"))->delete($parameters["idTask"], "lists");
       }else{$success=1;}
     
-      return (new ResponseHandler())->createResponse($response, ["sucess"=>$success], 200, "application/json");
+      return (new ResponseHandler())->createResponse($response, ["success"=>$success], 200, "application/json");
     });
-
+    return $this;
+  }
+  public function handleOPTIONSforCORS():static{
+    //The CORS is testing routes by asking an HTTP OPTIONS, to see the header response : https://www.html5rocks.com/static/images/cors_server_flowchart.png
+    // Slim Documenation : https://www.slimframework.com/docs/v3/cookbook/enable-cors.html
+    $this->app->options('/{routes:.+}', function ($request, $response, $args) {
+      return $response;
+    });
     return $this;
   }
 }
