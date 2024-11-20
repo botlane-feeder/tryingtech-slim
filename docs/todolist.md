@@ -19,3 +19,10 @@ Enregistrement BDD
 
 
 ## Amélioration
+
+- Mettre en place un fichier.php de configuration
+  - nom de la BDD (pour la changer lors des tests)
+- Ajouter des fonctionnalités
+  - Authentifications
+  - Avoir plusieurs listes
+  - Partager la lecture de certaines listes

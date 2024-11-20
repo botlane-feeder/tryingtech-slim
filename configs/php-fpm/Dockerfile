@@ -1,4 +1,5 @@
 FROM php:8.3-fpm
+LABEL org.opencontainers.image.source=https://github.com/botlan-feeder/tryingtech-slim
 
 WORKDIR /var/www/html
 

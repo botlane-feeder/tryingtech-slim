@@ -8,7 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 
-## [0.2.0] - 2024-09-23
+## [0.2.0] - 2024-01-05
+
+**Mise en place de tests unitaires dans l'application**
 
 ### REFACTOR
 
@@ -20,7 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mise en place d'un Makefile pour lancer plus facilement des commandes
 
 
-## [0.1.0] - 2024-09-22
+## [0.1.0] - 2024-01-03
+
+**Réfactoring de l'architecture de l'application.**
 
 ### REFACTOR
 
@@ -40,7 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Méthode publique : `delete()` qui supprime en BDD un document par son ID
 
 
-## [0.0.0] - 2024-09-22
+## [0.0.0] - 2024-01-02
+
+**Création de l'application et de ses 5 routes.**
 
 ### ADD
 

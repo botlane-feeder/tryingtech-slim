@@ -1,8 +1,9 @@
 services:
   php-fpm:
-    build:
-      context: .
-      dockerfile: configs/php-fpm/Dockerfile
+    image: ghcr.io/botlane-feeder/tryingtech-slim:0.2.0
+#    build:
+#      context: .
+#      dockerfile: configs/php-fpm/Dockerfile
     volumes:
       - .:/var/www/html
     networks:

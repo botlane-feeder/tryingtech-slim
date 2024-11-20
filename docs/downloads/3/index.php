@@ -29,7 +29,7 @@ $app->get('/', function (Request $request, Response $response, array $args) {
   
 $app->get('/about', function (Request $request, Response $response, array $args) {
   return (new ResponseHandler())->createResponse(
-    $response, ["name"=>"test-slim", "version"=>"0.0.0"], 200, "application/json; charset=UTF-8"
+    $response, ["name"=>"test-slim", "version"=>"0.1.0"], 200, "application/json; charset=UTF-8"
   );
 });
 

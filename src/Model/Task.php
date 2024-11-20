@@ -1,14 +1,17 @@
 <?php
 
-namespace App\Action;
+namespace App\Model;
 
-class TaskDataHandler {
+class Task extends Collection {// implements DataModelInterface{
+  function __construct(){
+    parent::__construct("lists");
+  }
   private function getTemplate(){
     return [
       "title"=> ["type" => "string", "mandatory" => true],
       "description"=> ["type" => "string", "mandatory" => false, "default"=>""],
       "date"=> ["type" => "int", "mandatory" => false, "default"=>time()],
-      "done"=> ["type" => "boolean", "mandatory" => false, "default"=>false]
+      "done"=> ["type" => "bool", "mandatory" => false, "default"=>false]
     ];
   }
   public function verifyData(array $data, bool $verifyMandatory=false):bool{
@@ -35,5 +38,16 @@ class TaskDataHandler {
     }
     return $formatedData;
   }
+
+  public function set(array $data):static{
+    foreach ($data as $key => $value) {
+      $this->data[$key]=$value;
+    }
+    return $this;
+  }
+  public function get(array $key=[]):array{
+    return $key === [] ? $this->data : (isset($this->data[$key])?$this->data[$key]:[]);
+  }
+  //On peut ajouter un updateData() qui met à jour la BDD et un fillData() OU read() qui récupêre depuis la BDD
 
 }
